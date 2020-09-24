@@ -4,7 +4,7 @@
 #
 Name     : xfce4-pulseaudio-plugin
 Version  : 0.4.3
-Release  : 1
+Release  : 2
 URL      : https://gitlab.xfce.org/panel-plugins/xfce4-pulseaudio-plugin/-/archive/xfce4-pulseaudio-plugin-0.4.3/xfce4-pulseaudio-plugin-xfce4-pulseaudio-plugin-0.4.3.tar.gz
 Source0  : https://gitlab.xfce.org/panel-plugins/xfce4-pulseaudio-plugin/-/archive/xfce4-pulseaudio-plugin-0.4.3/xfce4-pulseaudio-plugin-xfce4-pulseaudio-plugin-0.4.3.tar.gz
 Summary  : No detailed summary available
