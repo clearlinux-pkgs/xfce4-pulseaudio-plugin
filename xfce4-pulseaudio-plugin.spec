@@ -4,9 +4,9 @@
 #
 Name     : xfce4-pulseaudio-plugin
 Version  : 0.4.3
-Release  : 2
-URL      : https://gitlab.xfce.org/panel-plugins/xfce4-pulseaudio-plugin/-/archive/xfce4-pulseaudio-plugin-0.4.3/xfce4-pulseaudio-plugin-xfce4-pulseaudio-plugin-0.4.3.tar.gz
-Source0  : https://gitlab.xfce.org/panel-plugins/xfce4-pulseaudio-plugin/-/archive/xfce4-pulseaudio-plugin-0.4.3/xfce4-pulseaudio-plugin-xfce4-pulseaudio-plugin-0.4.3.tar.gz
+Release  : 3
+URL      : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.3.tar.bz2
+Source0  : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.3.tar.bz2
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
@@ -23,7 +23,7 @@ BuildRequires : pkgconfig(libnotify)
 BuildRequires : pkgconfig(libpulse)
 BuildRequires : pkgconfig(libpulse-mainloop-glib)
 BuildRequires : pkgconfig(libwnck-3.0)
-BuildRequires : pkgconfig(libxfce4panel-1.0)
+BuildRequires : pkgconfig(libxfce4panel-2.0)
 BuildRequires : pkgconfig(libxfce4ui-2)
 BuildRequires : pkgconfig(libxfce4util-1.0)
 BuildRequires : pkgconfig(libxfconf-0)
@@ -69,21 +69,21 @@ locales components for the xfce4-pulseaudio-plugin package.
 
 
 %prep
-%setup -q -n xfce4-pulseaudio-plugin-xfce4-pulseaudio-plugin-0.4.3
-cd %{_builddir}/xfce4-pulseaudio-plugin-xfce4-pulseaudio-plugin-0.4.3
+%setup -q -n xfce4-pulseaudio-plugin-0.4.3
+cd %{_builddir}/xfce4-pulseaudio-plugin-0.4.3
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1588403791
+export SOURCE_DATE_EPOCH=1609289183
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
 export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-%autogen --disable-static --enable-maintainer-mode
+%configure --disable-static --enable-maintainer-mode
 make  %{?_smp_mflags}
 
 %check
@@ -91,13 +91,13 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1588403791
+export SOURCE_DATE_EPOCH=1609289183
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/xfce4-pulseaudio-plugin
-cp %{_builddir}/xfce4-pulseaudio-plugin-xfce4-pulseaudio-plugin-0.4.3/COPYING %{buildroot}/usr/share/package-licenses/xfce4-pulseaudio-plugin/ea59e2cd7b05e4c7591f74b3eeb3af61d69f9332
+cp %{_builddir}/xfce4-pulseaudio-plugin-0.4.3/COPYING %{buildroot}/usr/share/package-licenses/xfce4-pulseaudio-plugin/ea59e2cd7b05e4c7591f74b3eeb3af61d69f9332
 %make_install
 %find_lang xfce4-pulseaudio-plugin
 
