@@ -1,1 +1,2 @@
 Configure miss: optional package keybinder-3.0 >= 0.2.2
+Configure miss: optional package libcanberra >= 0.30
