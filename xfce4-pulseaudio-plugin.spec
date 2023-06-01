@@ -4,10 +4,10 @@
 # Using build pattern: configure
 #
 Name     : xfce4-pulseaudio-plugin
-Version  : 0.4.6
-Release  : 6
-URL      : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.6.tar.bz2
-Source0  : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.6.tar.bz2
+Version  : 0.4.7
+Release  : 7
+URL      : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.7.tar.bz2
+Source0  : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.7.tar.bz2
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
@@ -72,37 +72,56 @@ locales components for the xfce4-pulseaudio-plugin package.
 
 
 %prep
-%setup -q -n xfce4-pulseaudio-plugin-0.4.6
-cd %{_builddir}/xfce4-pulseaudio-plugin-0.4.6
+%setup -q -n xfce4-pulseaudio-plugin-0.4.7
+cd %{_builddir}/xfce4-pulseaudio-plugin-0.4.7
+pushd ..
+cp -a xfce4-pulseaudio-plugin-0.4.7 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1680052986
+export SOURCE_DATE_EPOCH=1685661332
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 %configure --disable-static --enable-maintainer-mode
 make  %{?_smp_mflags}
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%configure --disable-static --enable-maintainer-mode
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
+cd ../buildavx2;
+make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1680052986
+export SOURCE_DATE_EPOCH=1685661332
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/xfce4-pulseaudio-plugin
 cp %{_builddir}/xfce4-pulseaudio-plugin-%{version}/COPYING %{buildroot}/usr/share/package-licenses/xfce4-pulseaudio-plugin/ea59e2cd7b05e4c7591f74b3eeb3af61d69f9332 || :
+pushd ../buildavx2/
+%make_install_v3
+popd
 %make_install
 %find_lang xfce4-pulseaudio-plugin
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -123,6 +142,7 @@ cp %{_builddir}/xfce4-pulseaudio-plugin-%{version}/COPYING %{buildroot}/usr/shar
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/xfce4/panel/plugins/libpulseaudio-plugin.so
 /usr/lib64/xfce4/panel/plugins/libpulseaudio-plugin.so
 
 %files license
