@@ -4,10 +4,10 @@
 # Using build pattern: configure
 #
 Name     : xfce4-pulseaudio-plugin
-Version  : 0.4.7
-Release  : 7
-URL      : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.7.tar.bz2
-Source0  : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.7.tar.bz2
+Version  : 0.4.8
+Release  : 8
+URL      : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.8.tar.bz2
+Source0  : https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.8.tar.bz2
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
@@ -72,10 +72,10 @@ locales components for the xfce4-pulseaudio-plugin package.
 
 
 %prep
-%setup -q -n xfce4-pulseaudio-plugin-0.4.7
-cd %{_builddir}/xfce4-pulseaudio-plugin-0.4.7
+%setup -q -n xfce4-pulseaudio-plugin-0.4.8
+cd %{_builddir}/xfce4-pulseaudio-plugin-0.4.8
 pushd ..
-cp -a xfce4-pulseaudio-plugin-0.4.7 buildavx2
+cp -a xfce4-pulseaudio-plugin-0.4.8 buildavx2
 popd
 
 %build
@@ -83,22 +83,28 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685661332
+export SOURCE_DATE_EPOCH=1696270529
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_FCFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS"
+CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS"
+FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
+FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
+ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
+LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
 %configure --disable-static --enable-maintainer-mode
 make  %{?_smp_mflags}
 
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
-export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
-export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS -m64 -march=x86-64-v3 "
+LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
 %configure --disable-static --enable-maintainer-mode
 make  %{?_smp_mflags}
 popd
@@ -112,7 +118,18 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1685661332
+export GCC_IGNORE_WERROR=1
+CLEAR_INTERMEDIATE_CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_FCFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS"
+CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS"
+FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
+FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
+ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
+LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
+export SOURCE_DATE_EPOCH=1696270529
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/xfce4-pulseaudio-plugin
 cp %{_builddir}/xfce4-pulseaudio-plugin-%{version}/COPYING %{buildroot}/usr/share/package-licenses/xfce4-pulseaudio-plugin/ea59e2cd7b05e4c7591f74b3eeb3af61d69f9332 || :
