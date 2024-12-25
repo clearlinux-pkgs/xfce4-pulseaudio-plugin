@@ -2,5 +2,7 @@ Configure miss: optional package keybinder-3.0 >= 0.2.2
 Configure miss: optional package keybinder-3.0 >= 0.2.2
 Configure miss: optional package libcanberra >= 0.30
 Configure miss: optional package libcanberra >= 0.30
-Configure miss: optional package libxfce4windowing-0 >= 4.19.1
-Configure miss: optional package libxfce4windowing-0 >= 4.19.1
+Configure miss: optional package libxfce4windowing-0 >= 4.19.6
+Configure miss: optional package libxfce4windowing-0 >= 4.19.6
+Configure miss: x86_64-generic-linux-gnu-file
+Configure miss: x86_64-generic-linux-gnu-file
